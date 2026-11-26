@@ -1,12 +1,20 @@
+// The Funniest Excuse for Skipping a Meeting — Round 3 (FINAL)
+// One-line excuse. Deterministic: no Date, no random, no wall-clock.
+
 import { mkdirSync, writeFileSync } from "node:fs";
 
-const LINE =
-  "My manager asked me to skip this meeting so I could finish the work this meeting was called to discuss.";
+const EXCUSE =
+  "I asked if this meeting could be an email. It said yes, then scheduled a follow-up meeting to discuss it.";
 
-// Deterministic guard: the gate accepts 1-200 characters, nothing else.
-if (LINE.length < 1 || LINE.length > 200) {
-  throw new Error("excuse line must be 1-200 characters, got " + LINE.length);
+const OUTPUT_PATH = "output/entry.txt";
+
+if (EXCUSE.length < 1 || EXCUSE.length > 200) {
+  throw new Error(`excuse must be 1-200 chars, got ${EXCUSE.length}`);
+}
+
+if (EXCUSE !== EXCUSE.trim() || /[\n\r\t]/.test(EXCUSE)) {
+  throw new Error("excuse must be a single line with no surrounding whitespace");
 }
 
 mkdirSync("output", { recursive: true });
-writeFileSync("output/entry.txt", LINE, "utf8");
+writeFileSync(OUTPUT_PATH, EXCUSE, "utf8");
